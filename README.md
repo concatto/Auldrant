@@ -1,7 +1,7 @@
 Auldrant
 ========
 
-Repositório para armazenamento de códigos variados.
+Repositório para armazenamento de códigos variados na linguagem JAVA.
 
 Os conteúdos são relacionados, mas não limitados, a:
 
