@@ -1,18 +1,17 @@
 package principal;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
 
-@SuppressWarnings("serial")
-public class Overlay extends JPanel{
+public class Overlay {
 	private BufferedImage[] charge;
 	private int largura = 48;
 	private int altura = 50;
+	private int x = 0;
+	private int y = 0;
 	Animacao anim = new Animacao();
 	
 	public Overlay(){
@@ -26,19 +25,35 @@ public class Overlay extends JPanel{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		setDoubleBuffered(true);
-		setVisible(true);
-		setSize(largura, altura);
-		setBackground(new Color(0f,0f,0f,0f));
-		
+				
 		anim.setFrame(charge);
 		anim.setIntervalo(40);
 	}
 	
-	public void paintComponent(Graphics g){
+	public int getWidth() {
+		return largura;
+	}
+
+	public int getHeight() {
+		return altura;
+	}
+	
+	public int getX(){
+		return x;
+	}
+	
+	public int getY(){
+		return y;
+	}
+	
+	public void setLocation(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+	
+	public void desenhar(Graphics g){
 		BufferedImage imagem = anim.getImage();
-		g.drawImage(imagem, 0, 0, null);
+		g.drawImage(imagem, getX(), getY(), null);
 	}
 	
 	public void atualizar(){

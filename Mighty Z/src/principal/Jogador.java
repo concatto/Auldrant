@@ -2,7 +2,6 @@ package principal;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -11,10 +10,8 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
 
-@SuppressWarnings("serial")
-public class Jogador extends JPanel{
+public class Jogador{
 	private BufferedImage[] teleport;
 	private BufferedImage[] materialize;
 	private BufferedImage[] dash;
@@ -32,9 +29,19 @@ public class Jogador extends JPanel{
 	private BufferedImage[] shoot;
 	private final int largura = 124;
 	private final int altura = 77;
+	private final int hitLargura = 40;
+	private final int hitAltura = 48;
+	
 	Animacao anim = new Animacao();
 	
 	private int nivelCarga=0;
+	private int grafX = 0;
+	private int x = 0;
+	private int y = 0;
+	private int extremidadeEsquerda;
+	private int extremidadeDireita;
+	private int extremidadeInferior;
+	private int extremidadeSuperior;
 	
 	private boolean teleportando=true;
 	private boolean materializando=false;
@@ -47,12 +54,13 @@ public class Jogador extends JPanel{
 	private boolean atirando=false;
 	private boolean carregando=false;
 	private boolean chegandoChao=false;
+	
 	private static boolean moveDireita=true;
+	private boolean relativoCenario=false;
 	
 	private long tempoInicio;
 	
 	public Jogador(){
-		setVisible(true);
 		try {
 			teleport = new BufferedImage[1];
 			materialize = new BufferedImage[6];
@@ -141,14 +149,14 @@ public class Jogador extends JPanel{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	
 		tempoInicio = System.nanoTime();
-		setBackground(new Color(0f,0f,0f,0f));
-		setDoubleBuffered(true);
 		anim.setFrame(teleport);
 		anim.setIntervalo(-1);
 	}
 	
-	public void paintComponent(Graphics g) {
+	
+	public void desenhar(Graphics2D g) {
 		BufferedImage result = new BufferedImage(largura, altura, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D gbi = result.createGraphics();
 		BufferedImage imagem = anim.getImage();
@@ -158,7 +166,7 @@ public class Jogador extends JPanel{
 		    AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
 		    imagem = op.filter(imagem, null);
 		}
-		gbi.drawImage(imagem, 0, 0, this);
+		gbi.drawImage(imagem, 0, 0, null);
 		if ((System.nanoTime() - tempoInicio) / 1000000L < 35){
 			sobrescreverCor(gbi, Color.red, 0.00f);
 		} else if ((System.nanoTime() - tempoInicio) / 1000000L > 70) {
@@ -176,12 +184,115 @@ public class Jogador extends JPanel{
 			}
 		}
 	    gbi.fillRect(0, 0, largura, altura);
-		g.drawImage(result, 0, altura-imagem.getHeight(), null);
+		g.drawImage(result, grafX, y-imagem.getHeight(), null);
 	}
 	
 	private void sobrescreverCor(Graphics2D g, Color cor, Float transparencia){
 		g.setColor(cor);
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, transparencia));
+	}
+	
+	public int getLargura() {
+		return largura;
+	}
+
+	public int getAltura() {
+		return altura;
+	}
+	
+	public int getGrafX() {
+		return grafX;
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
+	public int getHitLargura() {
+		return hitLargura;
+	}
+	
+	public int getHitAltura() {
+		return hitAltura;
+	}
+	
+	public void setLocation(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	public void setGrafX(int grafX) {
+		this.grafX = grafX;
+	}
+	
+	public void setX(int x){
+		this.x = x;
+	}
+	
+	public void setY(int y){
+		this.y = y;
+	}
+	
+	public void setExtremidadeEsquerda(int extremidadeEsquerda) {
+		this.extremidadeEsquerda = extremidadeEsquerda;
+	}
+	
+	public void setExtremidadeDireita(int extremidadeDireita) {
+		this.extremidadeDireita = extremidadeDireita;
+	}
+	
+	public void setExtremidadeInferior(int extremidadeInferior) {
+		this.extremidadeInferior = extremidadeInferior;
+	}
+	
+	public void setExtremidadeSuperior(int extremidadeSuperior) {
+		this.extremidadeSuperior = extremidadeSuperior;
+	}
+	
+	public int getExtremidadeEsquerda() {
+		return extremidadeEsquerda;
+	}
+	
+	public int getExtremidadeDireita() {
+		return extremidadeDireita;
+	}
+	
+	public int getExtremidadeInferior() {
+		return extremidadeInferior;
+	}
+	
+	public int getExtremidadeSuperior() {
+		return extremidadeSuperior;
+	}
+	
+	public void setRelativoCenario(boolean relativoCenario) {
+		this.relativoCenario = relativoCenario;
+	}
+	
+	public boolean isRelativoCenario() {
+		return relativoCenario;
+	}
+	
+	public int procurarChao(int tamanhoTile) {
+		int i = y;
+		while (true) {
+			if (i % tamanhoTile == 0) {
+				return i;
+			}
+			i++;
+		}
+	}
+	
+	public int getOffsetEsquerda() {
+		return x + (largura/2) - (hitLargura/2);
+	}
+	
+	public int getOffsetDireita() {
+		return x + (largura/2) + (hitLargura/2);
 	}
 	
 	public void setTeleportando(boolean teleportando) {
@@ -211,7 +322,7 @@ public class Jogador extends JPanel{
 	public boolean isMovendo() {
 		return movendo;
 	}
-
+	
 	public boolean isPulando() {
 		return pulando;
 	}
@@ -288,83 +399,86 @@ public class Jogador extends JPanel{
 		this.sabre = sabre;
 	}
 
-	public void setMaterializando(){
-		anim.setTempo(System.nanoTime());
+	public void setAniMaterializando(){
 		anim.setFrame(materialize);
+		anim.setTempo(System.nanoTime());
 		anim.setIntervalo(50);
 	}
 	
-	public void setDashing(){
+	public void setAniDashing(){
 		anim.setFrame(dash);
 		if (!dashing) anim.antiBug();
 		anim.setFrameCiclosPosteriores(3);
 		anim.setIntervalo(30);
 	}
 	
-	public void setParado(){
+	public void setAniParado(){
 		anim.setFrame(stand);
 		anim.setIntervalo(-1);
 	}
 	
-	public void setMovendo(){
+	public void setAniMovendo(){
 		anim.setFrame(walk);
-		anim.setIntervalo(40);
+		anim.setIntervalo(42);
 	}
 	
-	public void setMoveAtirando(){
+	public void setAniMoveAtirando(){
 		int frame = anim.getFrameAtual();
 		anim.setFrame(shootWalking);
 		anim.setFrameAtual(frame);
-		anim.setIntervalo(40);
+		anim.setIntervalo(42);
 	}
 	
-	public void setDashAtirando(){
+	public void setAniDashAtirando(){
 		anim.setFrame(shootDashing);
 		anim.setFrameCiclosPosteriores(3);
 		anim.setIntervalo(30);
 	}
 	
-	public void setSabre(){
+	public void setAniSabre(){
 		anim.setFrame(saber);
 		anim.setIntervalo(55);
 	}
 	
-	public void setSabrePulando(){
+	public void setAniSabrePulando(){
 		anim.setFrame(saberJumping);
 		anim.setIntervalo(55);
 	}
 	
-	public void setChegaChao(){
+	public void setAniChegaChao(){
 		anim.setFrame(reachGround);
-		anim.setIntervalo(50);
+		anim.setIntervalo(60);
 	}
 	
-	public void setSubindo(){
+	public void setAniSubindo(){
 		anim.setFrame(jump);
 		if (!pulando) anim.antiBug();
 		anim.setFrameCiclosPosteriores(2);
-		anim.setIntervalo(40);
+		anim.setIntervalo(50);
 	}
 	
-	public void setCaindo(){
+	public void setAniCaindo(){
 		anim.setFrame(fall);
+		if (!caindo) anim.antiBug();
 		anim.setFrameCiclosPosteriores(1);
-		anim.setIntervalo(40);
+		anim.setIntervalo(50);
 	}
 	
-	public void setCaiAtirando(){
-		anim.setFrame(shootFalling);
-		anim.setFrameCiclosPosteriores(1);
-		anim.setIntervalo(40);
-	}
-	
-	public void setSobeAtirando(){
+	public void setAniSobeAtirando(){
 		anim.setFrame(shootJumping);
+		if (!pulando) anim.antiBug();
 		anim.setFrameCiclosPosteriores(2);
-		anim.setIntervalo(40);
+		anim.setIntervalo(50);
 	}
 	
-	public void setAtirando(){
+	public void setAniCaiAtirando(){
+		anim.setFrame(shootFalling);
+		if (!caindo) anim.antiBug();
+		anim.setFrameCiclosPosteriores(1);
+		anim.setIntervalo(50);
+	}
+	
+	public void setAniAtirando(){
 		anim.setFrame(shoot);
 		anim.setTempo(System.nanoTime());
 		anim.setIntervalo(200);
@@ -372,13 +486,5 @@ public class Jogador extends JPanel{
 	
 	public void atualizar(){
 		anim.atualizarAnim();
-	}
-	
-	public int getLargura() {
-		return largura;
-	}
-
-	public int getAltura() {
-		return altura;
 	}
 }
