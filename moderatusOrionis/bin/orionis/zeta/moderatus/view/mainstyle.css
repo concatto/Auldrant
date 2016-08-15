@@ -1,0 +1,44 @@
+.split-pane > .split-pane-divider {
+
+    -fx-padding: 0 4 0 4;
+    -fx-background-color: transparent;
+}
+.split-pane {
+    -fx-box-border: transparent;
+}
+.table-view {
+    -fx-box-border: ladder(-fx-color, black 20%, derive(-fx-color,-15%) 30%);
+}
+.listcontainer {
+    -fx-min-width: 75;
+    -fx-padding: 1;
+}
+#content {
+    -fx-padding: 15 15 15 15;
+}
+#controls {
+    -fx-min-width: 110;
+    -fx-padding: 2 0 2 0;
+}
+#controls .button {
+    -fx-pref-width: 110;
+}
+.margintop {
+    -fx-padding: 5 0 0 0;
+}
+.table-view *.scroll-bar:horizontal *.increment-button,
+.table-view *.scroll-bar:horizontal *.decrement-button {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.table-view *.scroll-bar:horizontal *.increment-arrow, 
+.table-view *.scroll-bar:horizontal *.decrement-arrow {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-shape: null;
+}

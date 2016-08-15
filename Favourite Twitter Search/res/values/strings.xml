@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <string name="app_name">Favourite Twitter Search</string>
+   <string name="searchURL">http://search.twitter.com/search?q=</string>
+   <string name="tagPrompt">Marque sua busca</string>
+   <string name="queryPrompt">Digite sua pesquisa aqui</string>
+   <string name="taggedSearches">Buscas Marcadas</string>
+   <string name="edit">Editar</string>
+   <string name="clearTags">Limpar Tags</string>
+   <string name="back">Voltar</string>
+   <string name="save">Salvar</string>
+   <string name="erase">Apagar</string>
+   <string name="cancel">Cancelar</string>
+   <string name="ok">OK</string>
+   <string name="missingTitle">Texto faltando</string>
+   <string name="missingMessage">Digite uma consulta de pesquisa e marque-a.</string>
+   <string name="confirmTitle">Tem certeza?</string>
+   <string name="confirmMessage">Isto irá apagar todas as pesquisas salvas</string>
+</resources>

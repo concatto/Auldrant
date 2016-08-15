@@ -1,0 +1,23 @@
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: -fx-text-box-border, derive(-fx-text-box-border, 30%);
+    -fx-effect: null;
+}
+.tab-pane .tab-content-area {
+    -fx-background-color: -fx-background;
+}
+#root {
+    -fx-background-color: -fx-outer-border, -fx-text-box-border, linear-gradient(from 0px 0px to 0px 5px, -fx-text-box-border, derive(-fx-text-box-border, 30%));
+}
+#title {
+    -fx-font-size: 28;
+    -fx-padding: 6 0 4 24;
+    -fx-effect: dropshadow(gaussian, silver, 7, 0.4, 0, 1);
+}
+#buttons {
+    -fx-alignment: center-right;
+    -fx-padding: 0 12 12 0;
+    -fx-background-color: -fx-background;
+}
+#buttons > .button {
+    -fx-padding: 4 16 4 16;
+}

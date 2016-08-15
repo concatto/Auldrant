@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Rsrc-Class-Path: ./
+Class-Path: .
+Rsrc-Main-Class: epsilon.orionis.vinculus.principal.Principal
+Main-Class: org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader
+SplashScreen-Image: splash.jpg
+

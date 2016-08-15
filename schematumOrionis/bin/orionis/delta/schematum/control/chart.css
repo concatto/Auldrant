@@ -1,0 +1,7 @@
+.small-line .chart-series-line {
+	-fx-stroke-width: 2px;
+}
+.small-line .chart-legend-item-symbol {
+	-fx-background-radius: 0px;
+	-fx-padding: 1px 6px;
+}

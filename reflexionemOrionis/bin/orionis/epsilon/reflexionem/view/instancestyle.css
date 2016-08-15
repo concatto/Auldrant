@@ -1,0 +1,17 @@
+.instance-box {
+    -fx-background-color: -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
+    -fx-pref-height: 49;
+    -fx-pref-width: 92;
+    -fx-padding: 4 4 4 8;
+}
+.instance-box:focused {
+    -fx-background-color: -fx-focus-color, derive(-fx-focus-color,118%);
+}
+.instance-type {
+    -fx-text-overrun: leading-ellipsis;
+    -fx-font-size: 10;
+}
+.instance-identifier {
+    -fx-text-overrun: center-ellipsis;
+}

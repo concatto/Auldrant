@@ -1,0 +1,11 @@
+
+param.tempo:1398207386
+param.endereco:"Conexão local 21"
+param.ip:192.168.1.59
+param.mascara:255.255.255.0
+param.modem:192.168.1.1
+param.tempo:1398268047
+param.endereco:"Conexão local 21"
+param.ip:192.168.1.59
+param.mascara:255.255.255.0
+param.modem:192.168.1.1

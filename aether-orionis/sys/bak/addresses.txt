@@ -1,0 +1,49 @@
+param.tempo:1397703784
+param.endereco:"Conexão local 21"
+param.ip:192.168.1.59
+param.mascara:255.255.255.0
+param.modem:192.168.1.1
+
+
+param.tempo:1397703798
+param.endereco:"Conexão local 21"
+param.ip:192.168.1.48
+param.mascara:255.255.255.0
+param.modem:192.168.1.1
+
+
+param.tempo:1397954986
+param.endereco:"Conexão local 21"
+param.ip:192.168.1.59
+param.mascara:255.255.255.0
+param.modem:192.168.1.1
+param.tempo:1397961309
+param.endereco:"Conexão local 21"
+param.ip:192.168.1.59
+param.mascara:255.255.255.0
+param.modem:192.168.1.1
+param.tempo:1397961607
+param.endereco:"Conexão local 21"
+param.ip:192.168.1.59
+param.mascara:255.255.255.0
+param.modem:192.168.1.1
+param.tempo:1397962367
+param.endereco:"Conexão local 21"
+param.ip:192.168.1.59
+param.mascara:255.255.255.0
+param.modem:192.168.1.1
+param.tempo:1397962695
+param.endereco:"Conexão local 21"
+param.ip:192.168.1.59
+param.mascara:255.255.255.0
+param.modem:192.168.1.1
+param.tempo:1397962781
+param.endereco:"Conexão local 21"
+param.ip:192.168.1.59
+param.mascara:255.255.255.0
+param.modem:192.168.1.1
+param.tempo:1397962857
+param.endereco:"Conexão local 21"
+param.ip:192.168.1.59
+param.mascara:255.255.255.0
+param.modem:192.168.1.1

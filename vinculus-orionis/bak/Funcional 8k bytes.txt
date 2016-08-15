@@ -1,0 +1,87 @@
+package epsilon.orionis.vinculus.controlador;
+
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ConnectException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
+public class Controlador {
+	public Controlador() {
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				ServerSocket server = null;
+				DataInputStream in = null;
+				FileOutputStream arquivo = null;
+				try {
+					server = new ServerSocket(4444);
+					
+					System.out.println("Tentando ouvir na porta 4444...");
+					Socket incoming = server.accept();
+					System.out.println("Conexão encontrada: " + incoming.getInetAddress());
+					
+					in = new DataInputStream(incoming.getInputStream());
+					
+					byte[] dados = new byte[incoming.getReceiveBufferSize()];
+					in.read(dados);
+					
+					arquivo = new FileOutputStream("C:\\teste.txt");
+					arquivo.write(dados);
+				} catch (IOException e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						server.close();
+						in.close();
+						arquivo.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		thread.start();
+		
+		Socket client = null;
+		BufferedOutputStream out = null;
+		try {
+			String endereco = JOptionPane.showInputDialog("Digite o IP do servidor:");
+			client = new Socket(InetAddress.getByName(endereco), 4444);
+			out = new BufferedOutputStream(client.getOutputStream());
+			JFileChooser chooser = new JFileChooser();
+			chooser.showOpenDialog(null);
+			File arquivo = chooser.getSelectedFile();
+					
+			byte[] bytes = Files.readAllBytes(Paths.get(arquivo.getPath()));
+			
+			out.write(bytes);
+			out.flush();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				client.close();
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+}

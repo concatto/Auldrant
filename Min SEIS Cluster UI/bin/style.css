@@ -1,0 +1,45 @@
+
+
+node {
+  text-color: #FFFFFF;
+  text-alignment: center;
+  text-size: 10;
+  size: 18px;
+  fill-color: #006500;
+}
+
+node.susceptible {
+  fill-color: #006500;
+}
+
+node.exposed {
+  fill-color: #DAA520;
+}
+
+node.infected {
+  fill-color: #B22222;
+}
+
+edge {
+  size-mode: dyn-size;
+  size: 0.62px;
+  fill-color: #32CD32;
+}
+
+edge.removed {
+  size: 1.9px;
+  fill-color: #000000;
+}
+
+edge.susceptible {
+  fill-color: #32CD32;
+}
+
+edge.exposed {
+  fill-color: #5E4490;
+}
+
+edge.infected {
+  fill-color: #FF0000;
+  size: 0.82px;
+}

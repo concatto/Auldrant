@@ -1,0 +1,94 @@
+package br.concatto.karnaugh;
+
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class WireframeData {
+	private static double toleranceX;
+	private static double toleranceY;
+	public int x;
+	public int y;
+	public int width;
+	public int height;
+
+	private enum Mode {
+		X, Y;
+		
+		public static Mode invert(Mode mode) {
+			return mode == Mode.X ? Mode.Y : Mode.Y;
+		}
+	}
+	
+	public WireframeData(int x, int y, int width, int height) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		
+	}
+	
+	public static WireframeData analyze(ArrayList<Point> points, double toleranceX, double toleranceY, int width, int height) {
+		WireframeData.toleranceX = toleranceX;
+		WireframeData.toleranceY = toleranceY;
+		//width means x
+		int indexX = findFirstLineIndex(points, Mode.X, width, height);
+		int indexY = findFirstLineIndex(points, Mode.Y, width, height);
+		
+		List<Point> horizontal = filterPoints(points, indexX, Mode.X);
+		List<Point> vertical = filterPoints(points, indexY, Mode.Y);
+		
+		int x = horizontal.get(0).x;
+		int y = vertical.get(0).y;
+		
+		int wireframeWidth = horizontal.get(horizontal.size() - 1).x - x;
+		int wireframeHeight = vertical.get(vertical.size() - 1).x - y;
+
+		return new WireframeData(x, y, wireframeWidth, wireframeHeight);
+	}
+	
+	private static List<Point> filterPoints(ArrayList<Point> points, int comparator, Mode mode) {
+		return points.stream()
+				.filter(t -> (mode == Mode.X ? t.y : t.x) == comparator)
+				.sorted(buildComparator(mode))
+				.collect(Collectors.toList());
+	}
+	
+	
+	private static int findFirstLineIndex(ArrayList<Point> points, Mode mode, int width, int height) {
+		int relativeDimension = mode == Mode.X ? width : height;
+		double tolerance = mode == Mode.X ? toleranceY : toleranceX;
+		
+		Collections.sort(points, buildComparator(Mode.invert(mode)));
+		ArrayList<Integer[]> candidates = new ArrayList<>();
+		for (int i = 0; i < points.size(); i++) {
+			Point point = points.get(i);
+			int iteratingValue = mode == Mode.X ? point.y : point.x;
+			int amount = 0;
+			while (i < points.size() && isEqual(points.get(i++), iteratingValue, mode)) {
+				amount++;
+				System.out.println(amount);
+			}
+			Integer[] details = {iteratingValue, amount};
+			if (amount > relativeDimension / tolerance) candidates.add(details);
+		}
+		
+		candidates.sort((first, second) -> first[0] > second[0] ? 1 : (first[0] < second[0] ? -1 : 0));
+		return candidates.get(0)[0];
+	}
+	
+	private static boolean isEqual(Point point, int comparator, Mode mode) {
+		return (mode == Mode.X ? point.y : point.x) == comparator;
+	}
+	
+	private static Comparator<? super Point> buildComparator(Mode mode) {
+		if (mode == Mode.X) {
+			return (first, second) -> first.x > second.x ? 1 : (first.x < second.x ? -1 : 0);
+		} else {
+			return (first, second) -> first.y > second.y ? 1 : (first.y < second.y ? -1 : 0);
+		}
+	}
+}
